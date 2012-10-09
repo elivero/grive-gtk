@@ -248,6 +248,9 @@ void syncGrive(){
 	if(chdir(grive_directory.c_str()) != 0){ // The directory does not exist, throw an error
 		debugger::throwError("The directory located at the defined grive directory path (" + grive_directory + ") could not be found. Probably a typo in your configuration...?");
 	} else {
+		//
+		// FIX THIS!!!
+		//
 		debugger::throwSuccess("Grive directory found, starting the sync process");
 		string result = exec("grive 2>&1");
 		cout << "\n";
