@@ -12,8 +12,8 @@
 /*
  * FILE DESCRIPTION
  * 
- * File: 				main.cpp
- * Description:			Main source code file for the 'grive-gtk' project.
+ * File: 		main.cpp
+ * Description:		Main source code file for the 'grive-gtk' project.
  * Last modification:	8 October 2012 by Bas Dalenoord
  */
 
