@@ -1,0 +1,14 @@
+grive-gtk v0.5.0 October 2012
+by Bas Dalenoord, mijn.me.uk
+
+Copyright (c) 2012 All rights reserved
+
+Released under the BSD-license. A copy of the license should've been
+shipped with the release, and can be found in the 'bin/docs/license.txt' 
+file you've unpacked from the downloaded archive.
+
+INTRODUCTION
+------------
+grive-gtk aims to be a graphical implementation for the grive project. 
+Automatic synchronisation and error handling is what I am currently
+working on.
