@@ -110,8 +110,8 @@ class configuration{
 	 */
 	 
 	public:
-		struct Config {};												// Data structure for the configuration file. The whole file will be loaded into this structure
-		static string getValue(Config&, string);						// Load a specific value from the configuration file
+		struct Config {};	// Data structure for the configuration file. The whole file will be loaded into this structure
+		static string getValue(Config&, string);	// Load a specific value from the configuration file
 };
 string configuration::getValue(Config& config, string valueToLoad){
 	string result;
@@ -137,7 +137,7 @@ class gtk{
 	 */
 	 
 	public:
-		static GtkStatusIcon *createTrayIcon();							// Creates a new icon instance
+		static GtkStatusIcon *createTrayIcon();	// Creates a new icon instance
 		
 		// Event handlers
 		static void trayIconOnClick(GtkStatusIcon *tray_icon, gpointer user_data);
