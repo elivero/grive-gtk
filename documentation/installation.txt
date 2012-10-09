@@ -1,0 +1,28 @@
+grive-gtk
+Graphical implementation of grive for Linux-based operating systems
+v0.1.3 September 2012
+
+file:	documentation/installation.txt
+edited: 26 September 2012
+author: Bas Dalenoord
+
+------------
+INSTALLATION
+------------
+	Installation of grive-gtk has to be done manually for now. Follow
+	the instructions below to install the program.
+
+	Open a terminal window and browse to the folder where you downloaded
+	and extracted the files. (Ex: 'cd /home/[username]/Downloads/grive-gtk')
+	
+	Issue the following commands:
+		sudo cp ./resources/drive.png /usr/share/pixmaps/drive.png
+		sudo cp ./resources/grive-gtk.conf /etc/grive-gtk.conf
+		sudo cp ./grive-gtk /usr/bin/grive-gtk
+	
+	Basic installation is finished for now, and grive-gtk should run
+	without a problem. Further configuration options are explained in
+	'documentation/configuration.txt'
+	
+	
+	

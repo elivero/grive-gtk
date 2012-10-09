@@ -1,0 +1,21 @@
+grive-gtk
+Graphical implementation of grive for Linux-based operating systems
+v0.1.3 September 2012
+
+file:	documentation/configuration.txt
+edited: 26 September 2012
+author: Bas Dalenoord
+
+-------------
+CONFIGURATION
+-------------
+	The program reads and handles a file located in your '/etc' directory.
+	This file contains some basic configuration rules, which are, or should
+	at least be self-explaining or made clear by the comments.
+	
+	Issue the following command to view and edit the file:
+		sudo nano /etc/grive-gtk.conf
+			
+			or
+		
+		sudo vi /etc/grive-gtk.conf
