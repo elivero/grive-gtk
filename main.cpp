@@ -44,14 +44,14 @@ using namespace std;			// Using the standard namespace
 //
 // DEFINITIONS
 //
-#define		project_banner				"\n grive-gtk v0.5.0 October 2012\n by Bas Dalenoord, www.mijn.me.uk\n\n Copyright (c) 2012 All rights reserved\n\n Released under the BSD-license. A copy of the license should've been\n shipped with the release, and can be found in the 'docs/license.txt'\n file you've unpacked from the downloaded archive.\n\n"
+#define	project_banner	"\n grive-gtk v0.5.0 October 2012\n by Bas Dalenoord, www.mijn.me.uk\n\n Copyright (c) 2012 All rights reserved\n\n Released under the BSD-license. A copy of the license should've been\n shipped with the release, and can be found in the 'docs/license.txt'\n file you've unpacked from the downloaded archive.\n\n"
 
 //
 // VARIABLE DECLARATIONS, SORTED BY TYPE
 //
-string		config_file	=	"/etc/grive-gtk.conf";			// Default location for the configuration, a custom location might've been defined in this file, after which this string will be altered
+string		config_file	=	"/etc/grive-gtk.conf";				// Default location for the configuration, a custom location might've been defined in this file, after which this string will be altered
 string		grive_directory	=	getenv("HOME") + string("/grive");		// Default location for the synchronized folder, a custom location might've been defined in the configuration file, after which this string will be altered
-string		icon_file	=	"/usr/share/pixmaps/drive.png";		// Default location for grive-gtk's icon, a custom icon might've been defined in the configuration file, after which this string will be altered.
+string		icon_file	=	"/usr/share/pixmaps/drive.png";			// Default location for grive-gtk's icon, a custom icon might've been defined in the configuration file, after which this string will be altered.
 string		tooltip_text	=	"grive-gtk 0.5.0 by Bas Dalenoord";		// Default text of the tooltip which is displayed on icon hover
 
 int		sync_timeout	=	600;	// Timeout for automatic synchronisation, default is 10 minutes (defined in seconds). A custom timeout might've been defined in the configuration file, after which this string will be altered
