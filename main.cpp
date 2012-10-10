@@ -49,16 +49,16 @@ using namespace std;			// Using the standard namespace
 //
 // VARIABLE DECLARATIONS, SORTED BY TYPE
 //
-string		config_file		=	"/etc/grive-gtk.conf";			// Default location for the configuration, a custom location might've been defined in this file, after which this string will be altered
+string		config_file	=	"/etc/grive-gtk.conf";			// Default location for the configuration, a custom location might've been defined in this file, after which this string will be altered
 string		grive_directory	=	getenv("HOME") + string("/grive");		// Default location for the synchronized folder, a custom location might've been defined in the configuration file, after which this string will be altered
-string		icon_file		=	"/usr/share/pixmaps/drive.png";		// Default location for grive-gtk's icon, a custom icon might've been defined in the configuration file, after which this string will be altered.
+string		icon_file	=	"/usr/share/pixmaps/drive.png";		// Default location for grive-gtk's icon, a custom icon might've been defined in the configuration file, after which this string will be altered.
 string		tooltip_text	=	"grive-gtk 0.5.0 by Bas Dalenoord";		// Default text of the tooltip which is displayed on icon hover
 
-int			sync_timeout	=	600;	// Timeout for automatic synchronisation, default is 10 minutes (defined in seconds). A custom timeout might've been defined in the configuration file, after which this string will be altered
+int		sync_timeout	=	600;	// Timeout for automatic synchronisation, default is 10 minutes (defined in seconds). A custom timeout might've been defined in the configuration file, after which this string will be altered
 
-bool		debugger_enabled =	true;	// Enables/Disables the debugger
+bool	debugger_enabled	=	true;	// Enables/Disables the debugger
 
-pid_t 		pID;	// Child background process identifier 
+pid_t	pID;	// Child background process identifier 
 
 //
 // METHODS & CLASSES
@@ -68,8 +68,8 @@ pid_t 		pID;	// Child background process identifier
 class debugger;	// Debugger class... Duh!
 class configuration;	// Configuration class (You kiddin? :O)
 
-string		timeString(string format = "%H:%M:%S");	// Format a time string to either a defined or a default format
-string		exec(string* cmd);
+string	timeString(string format = "%H:%M:%S");	// Format a time string to either a defined or a default format
+string	exec(string* cmd);
 
 void syncGrive();	// Synchronize the directory now
 void destroyGriveGtk();	// Destroys all instances and processes related to grive-gtk
