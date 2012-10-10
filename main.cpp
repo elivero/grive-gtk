@@ -219,7 +219,7 @@ string exec(string cmd){
 	FILE *fpipe;
 	char line[512];
 	string result = "";
-	cmd = cmd.append(" 2>&1");
+	cmd = cmd.append(" 2>&1"); // Get messages from the stderr-stream as well... this also hides command output from the stdout... Nice!
 
 	if(0 == (fpipe = (FILE*)popen(cmd.c_str(),"r"))){
 		debugger::throwError("Could not execute command, popen() failed");
@@ -238,11 +238,11 @@ bool hasEnding (string const &fullString, string const &endString){
 	 * Function to check if a string ends with a certain supplied value, thanks to http://stackoverflow.com/questions/874134/
 	 * Last revision: 10 October 2012
 	 */
-    if (fullString.length() >= endString.length()) {
-        return (0 == fullString.compare (fullString.length() - endString.length(), endString.length(), endString));
-    } else {
-        return false;
-    }
+	if (fullString.length() >= endString.length()) {
+		return (0 == fullString.compare (fullString.length() - endString.length(), endString.length(), endString));
+	} else {
+		return false;
+	}
 }
 
 void syncGrive(){
@@ -250,12 +250,18 @@ void syncGrive(){
 	 * Synchronises the grive directory with Google Drive
 	 * Last modification: 10 October 2012
 	 */
+	int retryCount = 0;
+	
 	debugger::throwMessage("Grive synchronisation process initiated");
-		
+	
 	// Check if reload of the directory path is required
 	configuration::Config config;
 	if(configuration::getValue(config, "GRIVE_DIRECTORY") != grive_directory){
-		grive_directory = configuration::getValue(config, "GRIman VE_DIRECTORY");
+		grive_directory = configuration::getValue(config, "GRIVE_DIRECTORY");
+	}
+	if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true"){
+		// Automatic retry on fail should be performed...
+		retryCount = atoi(configuration::getValue(config,"SYNC_AUTO_RETRY_TIMES").c_str());
 	}
 	
 	// Check if the defined grive directory actually exists
@@ -268,7 +274,15 @@ void syncGrive(){
 		if(hasEnding(result,"Finished!\n") == 1)		
 			debugger::throwSuccess("Synchronisation finished");
 		else
-			debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
+		{
+			if(retryCount != 0){
+				debugger::throwError("Synchronisation failed due to an external error... Automatic retry...");
+				retryCount--;
+				syncGrive();
+			} else {
+				debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
+			}
+		}
 	}	
 }
 void destroyGriveGtk(){
@@ -292,7 +306,7 @@ void destroyGriveGtk(){
 int main(int argc, char* argv[]){
 	/*
 	 * Main method
-	 * Last modification: 9 October 2012
+	 * Last modification: 10 October 2012
 	 */
 	
 	cout << project_banner; // Print a banner for the project
