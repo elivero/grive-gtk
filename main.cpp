@@ -71,6 +71,8 @@ class configuration;	// Configuration class (You kiddin? :O)
 string	timeString(string format = "%H:%M:%S");	// Format a time string to either a defined or a default format
 string	exec(string* cmd);
 
+bool hasEnding(string const &fullString, string const &endString);
+
 void syncGrive();	// Synchronize the directory now
 void destroyGriveGtk();	// Destroys all instances and processes related to grive-gtk
 
@@ -231,6 +233,18 @@ string exec(string cmd){
 
 	return result;
 }
+bool hasEnding (string const &fullString, string const &endString){
+	/*
+	 * Function to check if a string ends with a certain supplied value, thanks to http://stackoverflow.com/questions/874134/
+	 * Last revision: 10 October 2012
+	 */
+    if (fullString.length() >= endString.length()) {
+        return (0 == fullString.compare (fullString.length() - endString.length(), endString.length(), endString));
+    } else {
+        return false;
+    }
+}
+
 void syncGrive(){
 	/*
 	 * Synchronises the grive directory with Google Drive
@@ -251,9 +265,10 @@ void syncGrive(){
 		debugger::throwSuccess("Grive directory found, starting the sync process");
 		string result = exec("grive");
 		
-		debugger::throwWarning(result);
-		
-		debugger::throwSuccess("Synchronisation finished");
+		if(hasEnding(result,"Finished!\n") == 1)		
+			debugger::throwSuccess("Synchronisation finished");
+		else
+			debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
 	}	
 }
 void destroyGriveGtk(){
