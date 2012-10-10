@@ -14,7 +14,7 @@
  * 
  * File: 		main.cpp
  * Description:		Main source code file for the 'grive-gtk' project.
- * Last modification:	8 October 2012 by Bas Dalenoord
+ * Last modification:	10 October 2012 by Bas Dalenoord
  */
 
 /*
@@ -209,26 +209,27 @@ string timeString(string format){
 	result = buffer; // Convert it to a string...
 	return result; // ... and return it!
 }
-string exec(char const *cmd){
+string exec(string cmd){
 	/*
 	 * Execute a command and place its output in a string variable for control purposes
-	 * Last modification: 8 October 2012
+	 * Last modification: 10 October 2012
 	 */
-	FILE *fpipe;
+	FILE *stream;
 	char line[512];
-	string result = "";
-	 
-	if(0 == (fpipe = (FILE*)popen(cmd,"r"))){
-		debugger::throwError("Could not execute command, popen() failed");
-	}
-	 
-	while(fread(line,sizeof line, 1, fpipe)){
-		result += line;
+	string result;
+	
+	const int max_buffer = 256;
+	char buffer[max_buffer];
+	cmd.append(" 2>&1");
+	
+	stream = popen(cmd.c_str(), "r");
+	if(stream){
+		while(!feof(stream)){
+			if(fgets(buffer,max_buffer,stream) != NULL) result.append(buffer);
+			pclose(stream);
+		}
 	}
 	
-	pclose(fpipe);
-	
-	debugger::throwWarning(result);
 	return result;
 }
 void syncGrive(){
@@ -252,8 +253,10 @@ void syncGrive(){
 		// FIX THIS!!!
 		//
 		debugger::throwSuccess("Grive directory found, starting the sync process");
-		string result = exec("grive 2>&1");
+		string result = exec("grive");
 		cout << "\n";
+		
+		debugger::throwWarning(result);
 		
 		debugger::throwSuccess("Synchronisation finished");
 	}	
