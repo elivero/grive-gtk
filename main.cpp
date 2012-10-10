@@ -211,50 +211,45 @@ string timeString(string format){
 }
 string exec(string cmd){
 	/*
-	 * Execute a command and place its output in a string variable for control purposes
-	 * Last modification: 10 October 2012
-	 */
-	FILE *stream;
+	* Execute a command and place its output in a string variable for control purposes
+	* Last modification: 10 October 2012
+	*/
+	FILE *fpipe;
 	char line[512];
-	string result;
-	
-	const int max_buffer = 256;
-	char buffer[max_buffer];
-	cmd.append(" 2>&1");
-	
-	stream = popen(cmd.c_str(), "r");
-	if(stream){
-		while(!feof(stream)){
-			if(fgets(buffer,max_buffer,stream) != NULL) result.append(buffer);
-			pclose(stream);
-		}
+	string result = "";
+	cmd = cmd.append(" 2>&1");
+
+	if(0 == (fpipe = (FILE*)popen(cmd.c_str(),"r"))){
+		debugger::throwError("Could not execute command, popen() failed");
 	}
-	
+
+	while(fgets(line, 512, fpipe)){
+		result += line;
+	}
+
+	pclose(fpipe);
+
 	return result;
 }
 void syncGrive(){
 	/*
 	 * Synchronises the grive directory with Google Drive
-	 * Last modification: 9 October 2012
+	 * Last modification: 10 October 2012
 	 */
 	debugger::throwMessage("Grive synchronisation process initiated");
 		
 	// Check if reload of the directory path is required
 	configuration::Config config;
 	if(configuration::getValue(config, "GRIVE_DIRECTORY") != grive_directory){
-		grive_directory = configuration::getValue(config, "GRIVE_DIRECTORY");
+		grive_directory = configuration::getValue(config, "GRIman VE_DIRECTORY");
 	}
 	
 	// Check if the defined grive directory actually exists
 	if(chdir(grive_directory.c_str()) != 0){ // The directory does not exist, throw an error
 		debugger::throwError("The directory located at the defined grive directory path (" + grive_directory + ") could not be found. Probably a typo in your configuration...?");
 	} else {
-		//
-		// FIX THIS!!!
-		//
 		debugger::throwSuccess("Grive directory found, starting the sync process");
 		string result = exec("grive");
-		cout << "\n";
 		
 		debugger::throwWarning(result);
 		
