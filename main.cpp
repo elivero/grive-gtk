@@ -14,7 +14,7 @@
  * 
  * File: 		main.cpp
  * Description:		Main source code file for the 'grive-gtk' project.
- * Last modification:	10 October 2012 by Bas Dalenoord
+ * Last modification:	11 October 2012 by Bas Dalenoord
  */
 
 /*
@@ -248,7 +248,7 @@ bool hasEnding (string const &fullString, string const &endString){
 void syncGrive(){
 	/*
 	 * Synchronises the grive directory with Google Drive
-	 * Last modification: 10 October 2012
+	 * Last modification: 11 October 2012
 	 */
 	int retryCount = 0;
 	
@@ -296,7 +296,7 @@ void destroyGriveGtk(){
 int main(int argc, char* argv[]){
 	/*
 	 * Main method
-	 * Last modification: 10 October 2012
+	 * Last modification: 11 October 2012
 	 */
 	
 	cout << project_banner; // Print a banner for the project
