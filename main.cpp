@@ -77,6 +77,7 @@ string	exec(string* cmd);
 bool hasEnding(string const &fullString, string const &endString);
 
 void syncGrive();	// Synchronize the directory now
+void displayInfo();
 void destroyGriveGtk();	// Destroys all instances and processes related to grive-gtk
 
 // Actual Class(es)
@@ -165,8 +166,8 @@ void gtk::trayIconOnMenu(GtkStatusIcon *tray_icon, guint button, guint activate_
 		gtk_menu_append(menu,item);
 		
 		item = gtk_menu_item_new_with_label("About this project");
-		gtk_widget_set_sensitive(item,false); // Inactive for now
 		gtk_menu_append(menu,item);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(displayInfo), GUINT_TO_POINTER(TRUE));
 		
 		item = gtk_menu_item_new_with_label("Quit grive-gtk");
 		gtk_menu_append(menu,item);
@@ -272,7 +273,6 @@ void syncGrive(){
 		if(hasEnding(result,"Finished!\n") == 1) // Grive has syncronised succesfully	
 			debugger::throwSuccess("Synchronisation finished");
 		else{ // Synchronisation failed, throw an error...
-			cout << "Retry: " << configuration::getValue(config, "SYNC_AUTO_RETRY");
 			if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true" && autoRetried == false){
 				while(retryCounter < retryCount){
 					retryCounter++;
@@ -280,12 +280,31 @@ void syncGrive(){
 					syncGrive();
 				}
 				autoRetried = true;
-			} else if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true") {
+			} else if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true" && autoRetried == true) {
 				debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
 			}
 		}
 	}	
 }
+void displayInfo(){
+	/*
+	 * Displays an information dialog
+	 * Last modification: 11 October 2012
+	 */
+	GtkWidget* popup = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW(popup),"About grive-gtk");
+    gtk_window_set_position(GTK_WINDOW(popup), GTK_WIN_POS_CENTER);       
+	GtkWidget* image = gtk_image_new_from_file(icon_file.c_str());
+	GtkWidget* infoMesg = gtk_label_new("grive-gtk 0.5.0 October 2012\nby Bas Dalenoord, mijn.me.uk\n\nCopyright (c) 2012 All rights reserved\n\nReleased under the BSD-license. A copy of the license should've been\nshipped with the release, and can be found in the 'docs/license.txt'     \nfile you've unpacked from the downloaded archive.");
+	GtkWidget* container = gtk_hbox_new(false,0);
+	gtk_widget_set_usize(image,128,128);
+	gtk_container_add(GTK_CONTAINER(container), image);
+	gtk_container_add(GTK_CONTAINER(container),infoMesg);
+	gtk_container_add(GTK_CONTAINER(popup),container);
+	
+	gtk_widget_show_all(popup);
+}
+
 void destroyGriveGtk(){
 	/*
 	 * Destroys the instance and all related processess to grive-gtk
