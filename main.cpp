@@ -291,18 +291,21 @@ void displayInfo(){
 	 * Displays an information dialog
 	 * Last modification: 11 October 2012
 	 */
-	GtkWidget* popup = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(popup),"About grive-gtk");
-    gtk_window_set_position(GTK_WINDOW(popup), GTK_WIN_POS_CENTER);       
-	GtkWidget* image = gtk_image_new_from_file(icon_file.c_str());
-	GtkWidget* infoMesg = gtk_label_new("grive-gtk 0.5.0 October 2012\nby Bas Dalenoord, mijn.me.uk\n\nCopyright (c) 2012 All rights reserved\n\nReleased under the BSD-license. A copy of the license should've been\nshipped with the release, and can be found in the 'docs/license.txt'     \nfile you've unpacked from the downloaded archive.");
-	GtkWidget* container = gtk_hbox_new(false,0);
-	gtk_widget_set_usize(image,128,128);
-	gtk_container_add(GTK_CONTAINER(container), image);
-	gtk_container_add(GTK_CONTAINER(container),infoMesg);
-	gtk_container_add(GTK_CONTAINER(popup),container);
+	GtkWidget* popup = gtk_window_new(GTK_WINDOW_TOPLEVEL); // Create a new window instance
+	gtk_window_set_title(GTK_WINDOW(popup),"About grive-gtk"); // Set the window title
+	gtk_window_set_position(GTK_WINDOW(popup), GTK_WIN_POS_CENTER); // Center the window on the screen
 	
-	gtk_widget_show_all(popup);
+	GtkWidget* image = gtk_image_new_from_file(icon_file.c_str()); // Load the Drive logo
+	GtkWidget* infoMesg = gtk_label_new("grive-gtk 0.5.0 October 2012\nby Bas Dalenoord, mijn.me.uk\n\nCopyright (c) 2012 All rights reserved\n\nReleased under the BSD-license. A copy of the license should've been\nshipped with the release, and can be found in the 'docs/license.txt'     \nfile you've unpacked from the downloaded archive."); // Create a text label
+	GtkWidget* container = gtk_hbox_new(false,0); // Container which holds the elements
+	
+	gtk_widget_set_usize(image,128,128); // Resize the image object
+	
+	gtk_container_add(GTK_CONTAINER(container), image); // Add the image to the container
+	gtk_container_add(GTK_CONTAINER(container),infoMesg); // Add the label to the container
+	gtk_container_add(GTK_CONTAINER(popup),container); // Add the container to the window
+	
+	gtk_widget_show_all(popup); // Show the window...
 }
 
 void destroyGriveGtk(){
