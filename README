@@ -9,6 +9,18 @@ file you've unpacked from the downloaded archive.
 
 INTRODUCTION
 ------------
-grive-gtk aims to be a graphical implementation for the grive project. 
-Automatic synchronisation and error handling is what I am currently
-working on.
+grive-gtk aims to be a graphical implementation for the grive project.
+This project aims to be an open-source implementation of Google Drive
+for Linux-based operating systems. A folder will be synchronised with 
+your Google Drive automatically. Furthermore, a tray icon is added to 
+give you more control over grive.
+
+
+UNDER DEVELOPMENT
+-----------------
+Previous versions introduced automatic synchronisation. This feature
+will be rewritten for this version. 
+
+Further modifications are made to create more stability and usability.
+A new feature related to this is for instance 'automatic resync on
+failure'.
