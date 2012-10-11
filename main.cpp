@@ -259,10 +259,6 @@ void syncGrive(){
 	if(configuration::getValue(config, "GRIVE_DIRECTORY") != grive_directory){
 		grive_directory = configuration::getValue(config, "GRIVE_DIRECTORY");
 	}
-	if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true"){
-		// Automatic retry on fail should be performed...
-		retryCount = atoi(configuration::getValue(config,"SYNC_AUTO_RETRY_TIMES").c_str());
-	}
 	
 	// Check if the defined grive directory actually exists
 	if(chdir(grive_directory.c_str()) != 0){ // The directory does not exist, throw an error
@@ -275,13 +271,7 @@ void syncGrive(){
 			debugger::throwSuccess("Synchronisation finished");
 		else
 		{
-			if(retryCount != 0){
-				debugger::throwError("Synchronisation failed due to an external error... Automatic retry...");
-				retryCount--;
-				syncGrive();
-			} else {
-				debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
-			}
+			debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
 		}
 	}	
 }
