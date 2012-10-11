@@ -57,6 +57,9 @@ string		tooltip_text	=	"grive-gtk 0.5.0 by Bas Dalenoord";		// Default text of t
 int		sync_timeout	=	600;	// Timeout for automatic synchronisation, default is 10 minutes (defined in seconds). A custom timeout might've been defined in the configuration file, after which this string will be altered
 
 bool	debugger_enabled	=	true;	// Enables/Disables the debugger
+bool	autoRetried	=	false;	// Has automatic resync been tried yet?
+
+int retryCounter	=	0;	// Counter, holds the number of retries until now.
 
 pid_t	pID;	// Child background process identifier 
 
@@ -250,8 +253,6 @@ void syncGrive(){
 	 * Synchronises the grive directory with Google Drive
 	 * Last modification: 11 October 2012
 	 */
-	int retryCount = 0;
-	
 	debugger::throwMessage("Grive synchronisation process initiated");
 	
 	// Check if reload of the directory path is required
@@ -259,19 +260,29 @@ void syncGrive(){
 	if(configuration::getValue(config, "GRIVE_DIRECTORY") != grive_directory){
 		grive_directory = configuration::getValue(config, "GRIVE_DIRECTORY");
 	}
+	int	retryCount	=	atoi(configuration::getValue(config,"SYNC_AUTO_TIMES").c_str());	// Number of times to automatically retry
 	
 	// Check if the defined grive directory actually exists
 	if(chdir(grive_directory.c_str()) != 0){ // The directory does not exist, throw an error
 		debugger::throwError("The directory located at the defined grive directory path (" + grive_directory + ") could not be found. Probably a typo in your configuration...?");
-	} else {
+	} else { // Directory exists, try syncing
 		debugger::throwSuccess("Grive directory found, starting the sync process");
-		string result = exec("grive");
+		string result = exec("grive"); // Execute the grive command and get it's output in a string for checking purpuses
 		
-		if(hasEnding(result,"Finished!\n") == 1)		
+		if(hasEnding(result,"Finished!\n") == 1) // Grive has syncronised succesfully	
 			debugger::throwSuccess("Synchronisation finished");
-		else
-		{
-			debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
+		else{ // Synchronisation failed, throw an error...
+			cout << "Retry: " << configuration::getValue(config, "SYNC_AUTO_RETRY");
+			if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true" && autoRetried == false){
+				while(retryCounter < retryCount){
+					retryCounter++;
+					debugger::throwError("Synchronisation failed due to an external error. Automatic retry " + retryCounter);
+					syncGrive();
+				}
+				autoRetried = true;
+			} else if(configuration::getValue(config, "SYNC_AUTO_RETRY") == "true") {
+				debugger::throwError("Synchronisation failed due to an external error. Try syncing manually...");
+			}
 		}
 	}	
 }
