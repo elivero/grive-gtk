@@ -62,6 +62,7 @@ bool	autoRetried	=	false;	// Has automatic resync been tried yet?
 int retryCounter	=	0;	// Counter, holds the number of retries until now.
 
 pid_t	pID;	// Child background process identifier 
+pid_t	pID_AUTOSYNC; // Automatic synchronisation process
 
 //
 // METHODS & CLASSES
@@ -322,6 +323,12 @@ void destroyGriveGtk(){
 		kill(pID, SIGKILL); // Kill it with a bigger gun
 	}
 	
+	kill(pID_AUTOSYNC, SIGTERM);
+	if(pID_AUTOSYNC){
+		debugger::throwError("Autosync child process could not be destroyed peacefully...");
+		kill(pID_AUTOSYNC,SIGKILL);
+	}
+	
 	exit; // Exit peacefully
 }
 
@@ -347,6 +354,11 @@ int main(int argc, char* argv[]){
 		debugger::throwError("The directory located at the defined grive directory path (" + grive_directory + ") could not be found. Probably a typo in your configuration...?");
 	}
 	
+	// Try to load the custom synchronisation timeout
+	if(atoi(configuration::getValue(config, "SYNC_TIMEOUT").c_str()) != sync_timeout && configuration::getValue(config, "SYNC_TIMEOUT") != ""){
+		sync_timeout = atoi(configuration::getValue(config,"SYNC_TIMEOUT").c_str());
+	}
+	
 	// Try to create a new icon instance
 	GtkStatusIcon* tray_icon;
 	gtk_init(&argc, &argv);
@@ -360,6 +372,16 @@ int main(int argc, char* argv[]){
 			}
 		} else if(pID < 0){
 			debugger::throwError("Could not fork child process");
+		} else {
+			pID_AUTOSYNC = fork(); // Fork automatic synchronisation to background
+			if(pID_AUTOSYNC == 0){ // Forking succesfull
+				while(pID_AUTOSYNC == 0){ // Sync automatically whilst process isn't killed
+					syncGrive();
+					sleep(sync_timeout);
+				}
+			} else if(pID_AUTOSYNC < 0){ // Forking failed
+				debugger::throwError("Could not fork process for automatic synchronisation");
+			}
 		}
 	}
 	else // Instance failed to create
