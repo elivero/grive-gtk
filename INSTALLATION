@@ -1,0 +1,21 @@
+grive-gtk v0.5.0 October 2012
+by Bas Dalenoord, mijn.me.uk
+
+Copyright (c) 2012 All rights reserved
+
+Released under the BSD-license. A copy of the license should've been
+shipped with the release, and can be found in the 'bin/docs/license.txt'
+directory of this repository.
+
+INSTALLATION
+------------
+Installation has to be done manually by executing the commands below.
+
+	sudo cp ./res/drive.png /usr/share/pixmaps
+	sudo cp ./res/grive-gtk.conf /etc
+	sudo cp ./bin/grive-gtk	/usr/bin
+	
+Modify the configuration file in '/etc/grive-gtk.conf' after this to
+your likings.
+	
+After this, the program can be started using the 'grive-gtk' command
