@@ -19,7 +19,7 @@ give you more control over grive.
 UNDER DEVELOPMENT
 -----------------
 Previous versions introduced automatic synchronisation. This feature
-will be rewritten for this version. 
+has been rewritten for this version.
 
 Further modifications are made to create more stability and usability.
 A new feature related to this is for instance 'automatic resync on
