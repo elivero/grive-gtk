@@ -10,6 +10,22 @@ by Bas Dalenoord, mijn.me.uk
 
 Copyright (c) 2012 All rights reserved
 
+CONTINUED?
+----------
+
+Apparently Bas Dalenoord hasn't got time to deal with this project. Works
+pretty well as is, and as I use it and know a thing or two about C and GTK,
+I will, if I find the time, hack on it to even out some rough spots, and
+then who knows, maybe even incorporate grive within it as a single executable.
+
+So far this repo is a verbatim copy of bdalenoord/grive-gtk and as far as this
+line here is present, it means I'm a lazy slob.
+
+Bojan Marković.
+
+  The rest is original Readme:
+
+
 Released under the BSD-license. A copy of the license should've been
 shipped with the release, and can be found in the 'bin/docs/license.txt'
 directory of this repository.
